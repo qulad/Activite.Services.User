@@ -2,7 +2,6 @@
 using Activite.Services.User.Mongo;
 using Convey;
 using Convey.Logging;
-using Convey.Persistence.MongoDB;
 using Convey.WebApi.CQRS;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
