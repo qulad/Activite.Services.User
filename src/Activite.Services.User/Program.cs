@@ -1,12 +1,13 @@
-﻿using Convey;
-using Convey.Discovery.Consul;
-using Convey.HTTP;
+﻿using Activite.Services.User.CQRS;
+using Activite.Services.User.Mongo;
+using Convey;
 using Convey.Logging;
-using Convey.WebApi;
+using Convey.Persistence.MongoDB;
+using Convey.WebApi.CQRS;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 #if DEBUG
 
@@ -19,21 +20,20 @@ var host = WebHost.CreateDefaultBuilder(args)
     {
         config.AddEnvironmentVariables();
     })
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
     {
         services
             .AddConvey()
-            .AddWebApi()
-            .AddHttpClient()
-            .AddConsul()
+            .AddCQRS()
+            .AddMongoRepositories()
             .Build();
     })
     .Configure(app =>
     {
         app
             .UseConvey()
-            .UseEndpoints(endpoints => endpoints
-                .Get("/ping", ctx => ctx.Response.WriteAsync("pong")));
+            .UseMongoIndexes()
+            .UseDispatcherEndpoints(endpoints => endpoints.UseEndpoints());
     })
     .UseLogging()
     .Build();
