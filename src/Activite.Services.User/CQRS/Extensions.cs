@@ -32,6 +32,7 @@ public static class Extensions
     {
         endpoints
             .UsePingEndpoint()
+            .UseAppleUserEndpoints()
             .UseGoogleUserEndpoints()
             .UseUserEndpoints();
 
@@ -41,6 +42,17 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UsePingEndpoint(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints.Get("/ping", ctx => ctx.Response.WriteAsync("pong"));
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseAppleUserEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Get<GetAppleUser, AppleUserDto>("/AppleUser/{id}")
+            .Get<GetMultipleAppleUsers, PagedResult<AppleUserDto>>("/AppleUser")
+            .Post<AddAppleUser>("/AppleUser")
+            .Put<UpdateAppleUser>("/AppleUser");
 
         return endpoints;
     }

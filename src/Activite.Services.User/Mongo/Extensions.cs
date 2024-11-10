@@ -16,6 +16,7 @@ public static class Extensions
     {
         builder
             .AddMongo()
+            .AddMongoRepository<AppleUserDocument, Guid>(AppleUserDocument.CollectionName)
             .AddMongoRepository<UserDocument, Guid>(UserDocument.CollectionName)
             .AddMongoRepository<GoogleUserDocument, Guid>(GoogleUserDocument.CollectionName);
 

@@ -7,7 +7,7 @@ using Convey.CQRS.Queries;
 namespace Activite.Services.User.CQRS.Queries;
 
 [Contract]
-public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleUserDto>>
+public class GetMultipleAppleUsers : PagedQueryBase, IQuery<PagedResult<AppleUserDto>>
 {
     public Guid? Id { get; set; }
 
@@ -17,7 +17,7 @@ public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleU
 
     public string Region { get; set; }
 
-    public string GoogleId { get; set; }
+    public string AppleId { get; set; }
 
     public bool? TermsAndServicesAccepted { get; set; }
 
@@ -35,12 +35,12 @@ public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleU
 
     public DateTimeOffset? UpdatedAtTo { get; set; }
 
-    public GetMultipleGoogleUsers(
+    public GetMultipleAppleUsers(
         Guid? id = null,
         string email = null,
         string phoneNumber = null,
         string region = null,
-        string googleId = null,
+        string appleId = null,
         bool? termsAndServicesAccepted = null,
         bool? verified = null,
         DateTimeOffset? createdAt = null,
@@ -58,7 +58,7 @@ public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleU
         Email = email;
         PhoneNumber = phoneNumber;
         Region = region;
-        GoogleId = googleId;
+        AppleId = appleId;
         TermsAndServicesAccepted = termsAndServicesAccepted;
         Verified = verified;
         CreatedAt = createdAt;

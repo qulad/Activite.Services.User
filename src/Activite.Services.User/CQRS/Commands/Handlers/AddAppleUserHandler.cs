@@ -8,16 +8,16 @@ using Convey.Persistence.MongoDB;
 
 namespace Activite.Services.User.CQRS.Commands.Handlers;
 
-public class AddUserHandler : ICommandHandler<AddUser>
+public class AddAppleUserHandler : ICommandHandler<AddAppleUser>
 {
-    private readonly IMongoRepository<UserDocument, Guid> _repository;
+    private readonly IMongoRepository<AppleUserDocument, Guid> _repository;
 
-    public AddUserHandler(IMongoRepository<UserDocument, Guid> repository)
+    public AddAppleUserHandler(IMongoRepository<AppleUserDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task HandleAsync(AddUser command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(AddAppleUser command, CancellationToken cancellationToken = default)
     {
         if (command is null)
         {
@@ -39,20 +39,21 @@ public class AddUserHandler : ICommandHandler<AddUser>
             throw new ArgumentException("User region cannot be empty.");
         }
 
-        if (string.IsNullOrEmpty(command.Type) && !UserTypes.All.Contains(command.Type))
+        if (string.IsNullOrEmpty(command.AppleId))
         {
             throw new ArgumentException("User type is invalid.");
         }
 
-        var user = new UserDocument
+        var user = new AppleUserDocument
         {
             Id = command.Id,
             Email = command.Email,
             PhoneNumber = command.PhoneNumber,
             Region = command.Region,
-            Type = command.Type,
+            Type = UserTypes.Apple,
             TermsAndServicesAccepted = false,
             Verified = false,
+            AppleId = command.AppleId,
             CreatedAt = DateTimeOffset.UtcNow
         };
 
