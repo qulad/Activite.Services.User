@@ -33,6 +33,7 @@ public static class Extensions
         endpoints
             .UsePingEndpoint()
             .UseAppleUserEndpoints()
+            .UseGoogleLocationEndpoints()
             .UseGoogleUserEndpoints()
             .UseUserEndpoints();
 
@@ -53,6 +54,17 @@ public static class Extensions
             .Get<GetMultipleAppleUsers, PagedResult<AppleUserDto>>("/AppleUser")
             .Post<AddAppleUser>("/AppleUser")
             .Put<UpdateAppleUser>("/AppleUser");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseGoogleLocationEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Get<GetGoogleLocation, GoogleLocationDto>("/GoogleLocation/{id}")
+            .Get<GetMultipleGoogleLocations, PagedResult<GoogleLocationDto>>("/GoogleLocation")
+            .Post<AddGoogleLocation>("/GoogleLocation")
+            .Put<UpdateGoogleLocation>("/GoogleLocation");
 
         return endpoints;
     }
