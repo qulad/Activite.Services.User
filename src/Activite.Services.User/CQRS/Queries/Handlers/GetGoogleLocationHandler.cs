@@ -22,7 +22,7 @@ public class GetGoogleLocationHandler : IQueryHandler<GetGoogleLocation, GoogleL
 
     public async Task<GoogleLocationDto> HandleAsync(GetGoogleLocation query, CancellationToken cancellationToken = default)
     {
-        var user = await _repository.GetAsync(query.Id);
+        var user = await _repository.GetAsync(query.Id); // 
 
         if (user is null)
         {

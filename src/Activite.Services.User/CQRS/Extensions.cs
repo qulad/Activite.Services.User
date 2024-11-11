@@ -72,7 +72,10 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseGoogleUserEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Get<GetMultipleGoogleUsers, PagedResult<GoogleUserDto>>("/GoogleUser");
+            .Get<GetGoogleUser, GoogleUserDto>("/GoogleUser/{id}")
+            .Get<GetMultipleGoogleUsers, PagedResult<GoogleUserDto>>("/GoogleUser")
+            .Post<AddGoogleUser>("/GoogleUser")
+            .Put<UpdateGoogleUser>("/GoogleUser");
 
         return endpoints;
     }
