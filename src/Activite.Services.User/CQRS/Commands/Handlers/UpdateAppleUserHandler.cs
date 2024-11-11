@@ -29,12 +29,8 @@ public class UpdateAppleUserHandler : ICommandHandler<UpdateAppleUser>
             throw new ArgumentException("User id cannot be empty.");
         }
 
-        var existingUser = await _repository.GetAsync(command.Id);
-
-        if (existingUser is null || existingUser.Type != UserTypes.Apple)
-        {
-            throw new ArgumentException($"User with Id: '{command.Id}' was not found.");
-        }
+        var existingUser = await _repository.GetAsync(x => x.Id == command.Id && x.Type == UserTypes.Apple)
+            ?? throw new ArgumentException($"User with Id: '{command.Id}' was not found.");
 
         existingUser.PhoneNumber = command.PhoneNumber;
         existingUser.Region = command.Region;

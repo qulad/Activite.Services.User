@@ -36,6 +36,7 @@ public class GetMultipleGoogleLocationHandler : IQueryHandler<GetMultipleGoogleL
             Email = item.Email,
             PhoneNumber = item.PhoneNumber,
             Region = item.Region,
+            Type = item.Type,
             GoogleId = item.GoogleId,
             Location = item.Location,
             TermsAndServicesAccepted = item.TermsAndServicesAccepted,
@@ -47,7 +48,7 @@ public class GetMultipleGoogleLocationHandler : IQueryHandler<GetMultipleGoogleL
 
     private static Expression<Func<GoogleLocationDocument, bool>> GetPredicate(GetMultipleGoogleLocations query)
     {
-        Expression<Func<GoogleLocationDocument, bool>> expression = user => user.Type == UserTypes.Apple;
+        Expression<Func<GoogleLocationDocument, bool>> expression = user => user.Type == UserTypes.GoogleLocation;
 
         if (query.Id.HasValue)
         {

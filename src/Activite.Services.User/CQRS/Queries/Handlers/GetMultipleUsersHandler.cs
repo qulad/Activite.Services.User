@@ -41,6 +41,7 @@ public class GetMultipleUsersHandler : IQueryHandler<GetMultipleUsers, PagedResu
             Email = item.Email,
             PhoneNumber = item.PhoneNumber,
             Region = item.Region,
+            Type = item.Type,
             TermsAndServicesAccepted = item.TermsAndServicesAccepted,
             Verified = item.Verified,
             CreatedAt = item.CreatedAt,

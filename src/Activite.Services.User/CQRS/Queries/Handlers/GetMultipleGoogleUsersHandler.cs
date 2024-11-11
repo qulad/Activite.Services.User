@@ -36,6 +36,7 @@ public class GetMultipleGoogleUsersHandler : IQueryHandler<GetMultipleGoogleUser
             Email = item.Email,
             PhoneNumber = item.PhoneNumber,
             Region = item.Region,
+            Type = item.Type,
             GoogleId = item.GoogleId,
             TermsAndServicesAccepted = item.TermsAndServicesAccepted,
             Verified = item.Verified,

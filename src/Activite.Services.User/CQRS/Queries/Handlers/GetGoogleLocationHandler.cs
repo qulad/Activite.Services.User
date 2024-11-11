@@ -37,6 +37,7 @@ public class GetGoogleLocationHandler : IQueryHandler<GetGoogleLocation, GoogleL
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             Region = user.Region,
+            Type = user.Type,
             GoogleId = user.GoogleId,
             Location = user.Location,
             TermsAndServicesAccepted = user.TermsAndServicesAccepted,
