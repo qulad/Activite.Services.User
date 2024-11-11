@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Activite.Services.User.Constants;
 using Activite.Services.User.DTOs;
 using Activite.Services.User.Mongo.Documents;
 using Convey.CQRS.Queries;
@@ -22,7 +23,7 @@ public class GetGoogleLocationHandler : IQueryHandler<GetGoogleLocation, GoogleL
 
     public async Task<GoogleLocationDto> HandleAsync(GetGoogleLocation query, CancellationToken cancellationToken = default)
     {
-        var user = await _repository.GetAsync(query.Id); // 
+        var user = await _repository.GetAsync(x => x.Id == query.Id && x.Type == UserTypes.GoogleLocation);
 
         if (user is null)
         {
