@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Activite.Services.User.Constants;
 using Activite.Services.User.DTOs;
 using Activite.Services.User.Mongo.Documents;
 using Convey.CQRS.Queries;
@@ -22,7 +23,7 @@ public class GetAppleUserHandler : IQueryHandler<GetAppleUser, AppleUserDto>
 
     public async Task<AppleUserDto> HandleAsync(GetAppleUser query, CancellationToken cancellationToken = default)
     {
-        var user = await _repository.GetAsync(query.Id);
+        var user = await _repository.GetAsync(x => x.Id == query.Id && x.Type == UserTypes.Apple);
 
         if (user is null)
         {
@@ -37,6 +38,8 @@ public class GetAppleUserHandler : IQueryHandler<GetAppleUser, AppleUserDto>
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             Region = user.Region,
+            Type = user.Type,
+            AppleId = user.AppleId,
             TermsAndServicesAccepted = user.TermsAndServicesAccepted,
             Verified = user.Verified,
             CreatedAt = user.CreatedAt,

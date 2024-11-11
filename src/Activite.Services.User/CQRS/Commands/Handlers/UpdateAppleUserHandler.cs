@@ -38,6 +38,8 @@ public class UpdateAppleUserHandler : ICommandHandler<UpdateAppleUser>
 
         existingUser.PhoneNumber = command.PhoneNumber;
         existingUser.Region = command.Region;
+        existingUser.TermsAndServicesAccepted = command.TermsAndServicesAccepted;
+        existingUser.Verified = command.Verified;
         existingUser.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _repository.UpdateAsync(existingUser);

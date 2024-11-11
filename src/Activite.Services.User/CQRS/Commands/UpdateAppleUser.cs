@@ -13,13 +13,21 @@ public class UpdateAppleUser : ICommand
 
     public string Region { get; set; }
 
+    public bool TermsAndServicesAccepted { get; set; }
+
+    public bool Verified { get; set; }
+
     public UpdateAppleUser(
         Guid id,
         string phoneNumber,
-        string region)
+        string region,
+        bool termsAndServicesAccepted,
+        bool verified)
     {
         Id = id;
         PhoneNumber = phoneNumber;
         Region = region;
+        TermsAndServicesAccepted = termsAndServicesAccepted;
+        Verified = verified;
     }
 }
