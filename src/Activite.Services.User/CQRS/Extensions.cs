@@ -82,7 +82,8 @@ public static class Extensions
         endpoints
             .Get<GetUser, UserDto>("/User/{id}")
             .Get<GetMultipleUsers, PagedResult<UserDto>>("/User")
-            .Post<AddUser>("/User");
+            .Post<AddUser>("/User")
+            .Put<UpdateUser>("/User");
 
         return endpoints;
     }
