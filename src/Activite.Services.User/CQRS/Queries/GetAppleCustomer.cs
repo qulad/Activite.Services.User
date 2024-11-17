@@ -6,11 +6,11 @@ using Convey.CQRS.Queries;
 namespace Activite.Services.User.CQRS.Queries;
 
 [Contract]
-public class GetAppleUser : IQuery<AppleUserDto>
+public class GetAppleCustomer : IQuery<AppleCustomerDto>
 {
     public Guid Id { get; set; }
 
-    public GetAppleUser(Guid id)
+    public GetAppleCustomer(Guid id)
     {
         Id = id;
     }

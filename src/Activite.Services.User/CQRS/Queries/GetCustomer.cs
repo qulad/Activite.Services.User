@@ -6,11 +6,11 @@ using Convey.CQRS.Queries;
 namespace Activite.Services.User.CQRS.Queries;
 
 [Contract]
-public class GetUser : IQuery<UserDto>
+public class GetCustomer : IQuery<CustomerDto>
 {
     public Guid Id { get; set; }
 
-    public GetUser(Guid id)
+    public GetCustomer(Guid id)
     {
         Id = id;
     }

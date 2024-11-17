@@ -6,37 +6,35 @@ using Activite.Services.User.DTOs;
 using Activite.Services.User.Mongo.Documents;
 using Convey.CQRS.Queries;
 using Convey.Persistence.MongoDB;
-using Microsoft.Extensions.Logging;
 
 namespace Activite.Services.User.CQRS.Queries.Handlers;
 
-public class GetGoogleLocationHandler : IQueryHandler<GetGoogleLocation, GoogleLocationDto>
+public class GetLocationHandler : IQueryHandler<GetLocation, LocationDto>
 {
-    private readonly IMongoRepository<GoogleLocationDocument, Guid> _repository;
+    private readonly IMongoRepository<LocationDocument, Guid> _repository;
 
-    public GetGoogleLocationHandler(IMongoRepository<GoogleLocationDocument, Guid> repository)
+    public GetLocationHandler(IMongoRepository<LocationDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task<GoogleLocationDto> HandleAsync(GetGoogleLocation query, CancellationToken cancellationToken = default)
+    public async Task<LocationDto> HandleAsync(GetLocation query, CancellationToken cancellationToken = default)
     {
         var user =
             await _repository.GetAsync(
-                x => x.Id == query.Id &&
-                x.Type == UserTypes.GoogleLocation);
+                x => x.Id == query.Id && 
+                (x.Type == UserTypes.Location || x.Type == UserTypes.GoogleLocation));
 
         if (user is null)
         {
-            return new GoogleLocationDto();
+            return new LocationDto();
         }
 
-        return new GoogleLocationDto
+        return new LocationDto
         {
             Id = user.Id,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            GoogleId = user.GoogleId,
             Address = user.Address,
             Name = user.Name,
             Description = user.Description,

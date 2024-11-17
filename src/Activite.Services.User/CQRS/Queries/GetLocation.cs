@@ -6,11 +6,11 @@ using Convey.CQRS.Queries;
 namespace Activite.Services.User.CQRS.Queries;
 
 [Contract]
-public class GetGoogleUser : IQuery<GoogleUserDto>
+public class GetLocation : IQuery<LocationDto>
 {
     public Guid Id { get; set; }
 
-    public GetGoogleUser(Guid id)
+    public GetLocation(Guid id)
     {
         Id = id;
     }

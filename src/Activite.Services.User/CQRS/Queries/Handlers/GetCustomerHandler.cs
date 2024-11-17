@@ -6,41 +6,38 @@ using Activite.Services.User.DTOs;
 using Activite.Services.User.Mongo.Documents;
 using Convey.CQRS.Queries;
 using Convey.Persistence.MongoDB;
-using Microsoft.Extensions.Logging;
 
 namespace Activite.Services.User.CQRS.Queries.Handlers;
 
-public class GetGoogleLocationHandler : IQueryHandler<GetGoogleLocation, GoogleLocationDto>
+public class GetCustomerHandler : IQueryHandler<GetCustomer, CustomerDto>
 {
-    private readonly IMongoRepository<GoogleLocationDocument, Guid> _repository;
+    private readonly IMongoRepository<CustomerDocument, Guid> _repository;
 
-    public GetGoogleLocationHandler(IMongoRepository<GoogleLocationDocument, Guid> repository)
+    public GetCustomerHandler(IMongoRepository<CustomerDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task<GoogleLocationDto> HandleAsync(GetGoogleLocation query, CancellationToken cancellationToken = default)
+    public async Task<CustomerDto> HandleAsync(GetCustomer query, CancellationToken cancellationToken = default)
     {
         var user =
             await _repository.GetAsync(
-                x => x.Id == query.Id &&
-                x.Type == UserTypes.GoogleLocation);
+                x => x.Id == query.Id && 
+                (x.Type == UserTypes.GoogleCustomer || x.Type == UserTypes.AppleCustomer || x.Type == UserTypes.Customer));
 
         if (user is null)
         {
-            return new GoogleLocationDto();
+            return new CustomerDto();
         }
 
-        return new GoogleLocationDto
+        return new CustomerDto
         {
             Id = user.Id,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            GoogleId = user.GoogleId,
-            Address = user.Address,
-            Name = user.Name,
-            Description = user.Description,
-            EstabilishedDate = user.EstabilishedDate,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            DateOfBirth = user.DateOfBirth,
             Region = user.Region,
             Type = user.Type,
             TermsAndServicesAccepted = user.TermsAndServicesAccepted,
