@@ -8,6 +8,7 @@ using Convey.Discovery.Consul;
 using Convey.HTTP;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
+using Convey.WebApi.CQRS.Builders;
 using Microsoft.AspNetCore.Http;
 
 namespace Activite.Services.User.CQRS;
@@ -32,10 +33,11 @@ public static class Extensions
     {
         endpoints
             .UsePingEndpoint()
-            .UseAppleUserEndpoints()
+            .UseAppleCustomerEndpoints()
             .UseGoogleLocationEndpoints()
-            .UseGoogleUserEndpoints()
-            .UseUserEndpoints();
+            .UseGoogleCustomerEndpoints()
+            .UseCustomerEndpoints()
+            .UseGoogleLocationEndpoints();
 
         return endpoints;
     }
@@ -47,13 +49,13 @@ public static class Extensions
         return endpoints;
     }
 
-    private static IDispatcherEndpointsBuilder UseAppleUserEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    private static IDispatcherEndpointsBuilder UseAppleCustomerEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Get<GetAppleUser, AppleUserDto>("/AppleUser/{id}")
-            .Get<GetMultipleAppleUsers, PagedResult<AppleUserDto>>("/AppleUser")
-            .Post<AddAppleUser>("/AppleUser")
-            .Put<UpdateAppleUser>("/AppleUser");
+            .Get<GetAppleCustomer, AppleCustomerDto>("/AppleCustomer/{id}")
+            .Get<GetMultipleAppleCustomers, PagedResult<AppleCustomerDto>>("/AppleCustomer")
+            .Post<AddAppleCustomer>("/AppleCustomer")
+            .Put<UpdateAppleCustomer>("/AppleCustomer");
 
         return endpoints;
     }
@@ -69,24 +71,31 @@ public static class Extensions
         return endpoints;
     }
 
-    private static IDispatcherEndpointsBuilder UseGoogleUserEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    private static IDispatcherEndpointsBuilder UseGoogleCustomerEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Get<GetGoogleUser, GoogleUserDto>("/GoogleUser/{id}")
-            .Get<GetMultipleGoogleUsers, PagedResult<GoogleUserDto>>("/GoogleUser")
-            .Post<AddGoogleUser>("/GoogleUser")
-            .Put<UpdateGoogleUser>("/GoogleUser");
+            .Get<GetGoogleCustomer, GoogleCustomerDto>("/GoogleCustomer/{id}")
+            .Get<GetMultipleGoogleCustomers, PagedResult<GoogleCustomerDto>>("/GoogleCustomer")
+            .Post<AddGoogleCustomer>("/GoogleCustomer")
+            .Put<UpdateGoogleCustomer>("/GoogleCustomer");
 
         return endpoints;
     }
 
-    private static IDispatcherEndpointsBuilder UseUserEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    private static IDispatcherEndpointsBuilder UseCustomerEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Get<GetUser, UserDto>("/User/{id}")
-            .Get<GetMultipleUsers, PagedResult<UserDto>>("/User")
-            .Post<AddUser>("/User")
-            .Put<UpdateUser>("/User");
+            .Get<GetCustomer, CustomerDto>("/Customer/{id}")
+            .Get<GetMultipleCustomers, PagedResult<CustomerDto>>("/Customer");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseLocationEndpoints(this DispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Get<GetLocation, LocationDto>("/Location/{id}")
+            .Get<GetMultipleLocations, PagedResult<LocationDto>>("/Location");
 
         return endpoints;
     }
