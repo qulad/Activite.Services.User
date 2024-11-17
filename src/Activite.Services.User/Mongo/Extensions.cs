@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Activite.Services.User.Mongo.Documents;
 using Convey;
@@ -30,17 +31,18 @@ public static class Extensions
     {
         using var scope = app.ApplicationServices.CreateScope();
 
-        scope.CreateIdIndex<UserDocument>();
+        scope.CreateIndex<UserDocument>(static x => x.Id);
+        scope.CreateIndex<UserDocument>(static x => x.Email);
 
         return app;
     }
 
-    private static IServiceScope CreateIdIndex<TDocument>(this IServiceScope scope) where TDocument : IIdentifiable<Guid>
+    private static IServiceScope CreateIndex<TDocument>(this IServiceScope scope, Expression<Func<TDocument, object>> field) where TDocument : IIdentifiable<Guid>
     {
         var collection = scope.ServiceProvider.GetRequiredService<IMongoRepository<TDocument, Guid>>().Collection;
         var colletionBuilder = Builders<TDocument>.IndexKeys;
         Task.Run(async () => await collection.Indexes.CreateOneAsync(
-            new CreateIndexModel<TDocument>(colletionBuilder.Ascending(static c => c.Id),
+            new CreateIndexModel<TDocument>(colletionBuilder.Ascending(field),
                 new CreateIndexOptions { Unique = true })
         ));
 
