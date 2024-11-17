@@ -10,16 +10,16 @@ using Convey.Persistence.MongoDB;
 
 namespace Activite.Services.User.CQRS.Queries.Handlers;
 
-public class GetMultipleAppleUsersHandler : IQueryHandler<GetMultipleAppleUsers, PagedResult<AppleUserDto>>
+public class GetMultipleLocationsHandler : IQueryHandler<GetMultipleLocations, PagedResult<LocationDto>>
 {
-    private readonly IMongoRepository<AppleUserDocument, Guid> _repository;
+    private readonly IMongoRepository<LocationDocument, Guid> _repository;
 
-    public GetMultipleAppleUsersHandler(IMongoRepository<AppleUserDocument, Guid> repository)
+    public GetMultipleLocationsHandler(IMongoRepository<LocationDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task<PagedResult<AppleUserDto>> HandleAsync(GetMultipleAppleUsers query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<LocationDto>> HandleAsync(GetMultipleLocations query, CancellationToken cancellationToken = default)
     {
         var predicate = GetPredicate(query);
 
@@ -27,27 +27,30 @@ public class GetMultipleAppleUsersHandler : IQueryHandler<GetMultipleAppleUsers,
 
         if (users is null || users.IsEmpty)
         {
-            return PagedResult<AppleUserDto>.Empty;
+            return PagedResult<LocationDto>.Empty;
         }
 
-        return users.Map(item => new AppleUserDto
+        return users.Map(user => new LocationDto
         {
-            Id = item.Id,
-            Email = item.Email,
-            PhoneNumber = item.PhoneNumber,
-            Region = item.Region,
-            AppleId = item.AppleId,
-            Type = item.Type,
-            TermsAndServicesAccepted = item.TermsAndServicesAccepted,
-            Verified = item.Verified,
-            CreatedAt = item.CreatedAt,
-            UpdatedAt = item.UpdatedAt
+            Id = user.Id,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Address = user.Address,
+            Name = user.Name,
+            Description = user.Description,
+            EstabilishedDate = user.EstabilishedDate,
+            Region = user.Region,
+            Type = user.Type,
+            TermsAndServicesAccepted = user.TermsAndServicesAccepted,
+            Verified = user.Verified,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt
         });
     }
 
-    private static Expression<Func<AppleUserDocument, bool>> GetPredicate(GetMultipleAppleUsers query)
+    private static Expression<Func<LocationDocument, bool>> GetPredicate(GetMultipleLocations query)
     {
-        Expression<Func<AppleUserDocument, bool>> expression = user => user.Type == UserTypes.Apple;
+        Expression<Func<LocationDocument, bool>> expression = user => user.Type == UserTypes.Location || user.Type == UserTypes.GoogleLocation;
 
         if (query.Id.HasValue)
         {
@@ -68,10 +71,35 @@ public class GetMultipleAppleUsersHandler : IQueryHandler<GetMultipleAppleUsers,
         {
             expression = expression.And(user => user.Region == query.Region);
         }
-
-        if (!string.IsNullOrEmpty(query.AppleId))
+        
+        if (!string.IsNullOrEmpty(query.Address))
         {
-            expression = expression.And(user => user.AppleId == query.AppleId);
+            expression = expression.And(user => user.Address == query.Address);
+        }
+
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            expression = expression.And(user => user.Name == query.Name);
+        }
+
+        if (!string.IsNullOrEmpty(query.Description))
+        {
+            expression = expression.And(user => user.Description == query.Description);
+        }
+
+        if (query.EstabilishedDate.HasValue)
+        {
+            expression = expression.And(user => user.EstabilishedDate == query.EstabilishedDate);
+        }
+
+        if (query.EstabilishedDateFrom.HasValue)
+        {
+            expression = expression.And(user => user.EstabilishedDate >= query.EstabilishedDateFrom);
+        }
+
+        if (query.EstabilishedDateTo.HasValue)
+        {
+            expression = expression.And(user => user.EstabilishedDate <= query.EstabilishedDateTo);
         }
 
         if (query.TermsAndServicesAccepted.HasValue)

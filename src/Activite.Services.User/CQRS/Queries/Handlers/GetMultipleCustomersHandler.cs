@@ -10,16 +10,16 @@ using Convey.Persistence.MongoDB;
 
 namespace Activite.Services.User.CQRS.Queries.Handlers;
 
-public class GetMultipleGoogleUsersHandler : IQueryHandler<GetMultipleGoogleUsers, PagedResult<GoogleUserDto>>
+public class GetMultipleCustomersHandler : IQueryHandler<GetMultipleCustomers, PagedResult<CustomerDto>>
 {
-    private readonly IMongoRepository<GoogleUserDocument, Guid> _repository;
+    private readonly IMongoRepository<CustomerDocument, Guid> _repository;
 
-    public GetMultipleGoogleUsersHandler(IMongoRepository<GoogleUserDocument, Guid> repository)
+    public GetMultipleCustomersHandler(IMongoRepository<CustomerDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task<PagedResult<GoogleUserDto>> HandleAsync(GetMultipleGoogleUsers query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<CustomerDto>> HandleAsync(GetMultipleCustomers query, CancellationToken cancellationToken = default)
     {
         var predicate = GetPredicate(query);
 
@@ -27,27 +27,29 @@ public class GetMultipleGoogleUsersHandler : IQueryHandler<GetMultipleGoogleUser
 
         if (users is null || users.IsEmpty)
         {
-            return PagedResult<GoogleUserDto>.Empty;
+            return PagedResult<CustomerDto>.Empty;
         }
 
-        return users.Map(item => new GoogleUserDto
+        return users.Map(user => new CustomerDto
         {
-            Id = item.Id,
-            Email = item.Email,
-            PhoneNumber = item.PhoneNumber,
-            Region = item.Region,
-            Type = item.Type,
-            GoogleId = item.GoogleId,
-            TermsAndServicesAccepted = item.TermsAndServicesAccepted,
-            Verified = item.Verified,
-            CreatedAt = item.CreatedAt,
-            UpdatedAt = item.UpdatedAt
+            Id = user.Id,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            DateOfBirth = user.DateOfBirth,
+            Region = user.Region,
+            Type = user.Type,
+            TermsAndServicesAccepted = user.TermsAndServicesAccepted,
+            Verified = user.Verified,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt
         });
     }
 
-    private static Expression<Func<GoogleUserDocument, bool>> GetPredicate(GetMultipleGoogleUsers query)
+    private static Expression<Func<CustomerDocument, bool>> GetPredicate(GetMultipleCustomers query)
     {
-        Expression<Func<GoogleUserDocument, bool>> expression = user => user.Type == UserTypes.Google;
+        Expression<Func<CustomerDocument, bool>> expression = user => user.Type == UserTypes.Customer || user.Type == UserTypes.GoogleCustomer || user.Type == UserTypes.AppleCustomer;
 
         if (query.Id.HasValue)
         {
@@ -68,10 +70,30 @@ public class GetMultipleGoogleUsersHandler : IQueryHandler<GetMultipleGoogleUser
         {
             expression = expression.And(user => user.Region == query.Region);
         }
-
-        if (!string.IsNullOrEmpty(query.GoogleId))
+        
+        if (!string.IsNullOrEmpty(query.FirstName))
         {
-            expression = expression.And(user => user.GoogleId == query.GoogleId);
+            expression = expression.And(user => user.FirstName == query.FirstName);
+        }
+
+        if (!string.IsNullOrEmpty(query.LastName))
+        {
+            expression = expression.And(user => user.LastName == query.LastName);
+        }
+
+        if (query.DateOfBirth.HasValue)
+        {
+            expression = expression.And(user => user.DateOfBirth == query.DateOfBirth);
+        }
+
+        if (query.DateOfBirthFrom.HasValue)
+        {
+            expression = expression.And(user => user.DateOfBirth >= query.DateOfBirthFrom);
+        }
+
+        if (query.DateOfBirthTo.HasValue)
+        {
+            expression = expression.And(user => user.DateOfBirth <= query.DateOfBirthTo);
         }
 
         if (query.TermsAndServicesAccepted.HasValue)

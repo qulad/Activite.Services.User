@@ -1,13 +1,11 @@
 using System;
-using Activite.Services.User.Attributes;
 using Activite.Services.User.Constants;
 using Activite.Services.User.DTOs;
 using Convey.CQRS.Queries;
 
 namespace Activite.Services.User.CQRS.Queries;
 
-[Contract]
-public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleUserDto>>
+public class GetMultipleGoogleCustomers : PagedQueryBase, IQuery<PagedResult<GoogleCustomerDto>>
 {
     public Guid? Id { get; set; }
 
@@ -18,6 +16,16 @@ public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleU
     public string Region { get; set; }
 
     public string GoogleId { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string LastName { get; set; }
+
+    public DateOnly? DateOfBirth { get; set; }
+
+    public DateOnly? DateOfBirthFrom { get; set; }
+
+    public DateOnly? DateOfBirthTo { get; set; }
 
     public bool? TermsAndServicesAccepted { get; set; }
 
@@ -35,12 +43,17 @@ public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleU
 
     public DateTimeOffset? UpdatedAtTo { get; set; }
 
-    public GetMultipleGoogleUsers(
+    public GetMultipleGoogleCustomers(
         Guid? id = null,
         string email = null,
         string phoneNumber = null,
         string region = null,
         string googleId = null,
+        string firstName = null,
+        string lastName = null,
+        DateOnly? dateOfBirth = null,
+        DateOnly? dateOfBirthFrom = null,
+        DateOnly? dateOfBirthTo = null,
         bool? termsAndServicesAccepted = null,
         bool? verified = null,
         DateTimeOffset? createdAt = null,
@@ -59,6 +72,11 @@ public class GetMultipleGoogleUsers : PagedQueryBase, IQuery<PagedResult<GoogleU
         PhoneNumber = phoneNumber;
         Region = region;
         GoogleId = googleId;
+        FirstName = firstName;
+        LastName = lastName;
+        DateOfBirth = dateOfBirth;
+        DateOfBirthFrom = dateOfBirthFrom;
+        DateOfBirthTo = dateOfBirthTo;
         TermsAndServicesAccepted = termsAndServicesAccepted;
         Verified = verified;
         CreatedAt = createdAt;

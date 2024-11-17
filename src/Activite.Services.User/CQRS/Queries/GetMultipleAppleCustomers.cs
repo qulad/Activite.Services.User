@@ -5,7 +5,7 @@ using Convey.CQRS.Queries;
 
 namespace Activite.Services.User.CQRS.Queries;
 
-public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<GoogleLocationDto>>
+public class GetMultipleAppleCustomers : PagedQueryBase, IQuery<PagedResult<AppleCustomerDto>>
 {
     public Guid? Id { get; set; }
 
@@ -15,19 +15,17 @@ public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<Goo
 
     public string Region { get; set; }
 
-    public string GoogleId { get; set; }
+    public string AppleId { get; set; }
 
-    public string Address { get; set; }
+    public string FirstName { get; set; }
 
-    public string Name { get; set; }
+    public string LastName { get; set; }
 
-    public string Description { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 
-    public DateOnly? EstabilishedDate { get; set; }
+    public DateOnly? DateOfBirthFrom { get; set; }
 
-    public DateOnly? EstabilishedDateFrom { get; set; }
-
-    public DateOnly? EstabilishedDateTo { get; set; }
+    public DateOnly? DateOfBirthTo { get; set; }
 
     public bool? TermsAndServicesAccepted { get; set; }
 
@@ -45,18 +43,17 @@ public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<Goo
 
     public DateTimeOffset? UpdatedAtTo { get; set; }
 
-    public GetMultipleGoogleLocations(
+    public GetMultipleAppleCustomers(
         Guid? id = null,
         string email = null,
         string phoneNumber = null,
         string region = null,
-        string googleId = null,
-        string address = null,
-        string name = null,
-        string description = null,
-        DateOnly? estabilishedDate = null,
-        DateOnly? estabilishedDateFrom = null,
-        DateOnly? estabilishedDateTo = null,
+        string appleId = null,
+        string firstName = null,
+        string lastName = null,
+        DateOnly? dateOfBirth = null,
+        DateOnly? dateOfBirthFrom = null,
+        DateOnly? dateOfBirthTo = null,
         bool? termsAndServicesAccepted = null,
         bool? verified = null,
         DateTimeOffset? createdAt = null,
@@ -74,13 +71,12 @@ public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<Goo
         Email = email;
         PhoneNumber = phoneNumber;
         Region = region;
-        GoogleId = googleId;
-        Address = address;
-        Name = name;
-        Description = description;
-        EstabilishedDate = estabilishedDate;
-        EstabilishedDateFrom = estabilishedDateFrom;
-        EstabilishedDateTo = estabilishedDateTo;
+        AppleId = appleId;
+        FirstName = firstName;
+        LastName = lastName;
+        DateOfBirth = dateOfBirth;
+        DateOfBirthFrom = dateOfBirthFrom;
+        DateOfBirthTo = dateOfBirthTo;
         TermsAndServicesAccepted = termsAndServicesAccepted;
         Verified = verified;
         CreatedAt = createdAt;

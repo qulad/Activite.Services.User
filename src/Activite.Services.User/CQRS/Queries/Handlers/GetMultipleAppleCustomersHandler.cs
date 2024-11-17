@@ -10,16 +10,16 @@ using Convey.Persistence.MongoDB;
 
 namespace Activite.Services.User.CQRS.Queries.Handlers;
 
-public class GetMultipleGoogleLocationsHandler : IQueryHandler<GetMultipleGoogleLocations, PagedResult<GoogleLocationDto>>
+public class GetMultipleAppleCustomersHandler : IQueryHandler<GetMultipleAppleCustomers, PagedResult<AppleCustomerDto>>
 {
-    private readonly IMongoRepository<GoogleLocationDocument, Guid> _repository;
+    private readonly IMongoRepository<AppleCustomerDocument, Guid> _repository;
 
-    public GetMultipleGoogleLocationsHandler(IMongoRepository<GoogleLocationDocument, Guid> repository)
+    public GetMultipleAppleCustomersHandler(IMongoRepository<AppleCustomerDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task<PagedResult<GoogleLocationDto>> HandleAsync(GetMultipleGoogleLocations query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<AppleCustomerDto>> HandleAsync(GetMultipleAppleCustomers query, CancellationToken cancellationToken = default)
     {
         var predicate = GetPredicate(query);
 
@@ -27,20 +27,19 @@ public class GetMultipleGoogleLocationsHandler : IQueryHandler<GetMultipleGoogle
 
         if (users is null || users.IsEmpty)
         {
-            return PagedResult<GoogleLocationDto>.Empty;
+            return PagedResult<AppleCustomerDto>.Empty;
         }
 
-        return users.Map(user => new GoogleLocationDto
+        return users.Map(user => new AppleCustomerDto
         {
             Id = user.Id,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            Address = user.Address,
-            Name = user.Name,
-            Description = user.Description,
-            EstabilishedDate = user.EstabilishedDate,
+            AppleId = user.AppleId,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            DateOfBirth = user.DateOfBirth,
             Region = user.Region,
-            GoogleId = user.GoogleId,
             Type = user.Type,
             TermsAndServicesAccepted = user.TermsAndServicesAccepted,
             Verified = user.Verified,
@@ -49,9 +48,9 @@ public class GetMultipleGoogleLocationsHandler : IQueryHandler<GetMultipleGoogle
         });
     }
 
-    private static Expression<Func<GoogleLocationDocument, bool>> GetPredicate(GetMultipleGoogleLocations query)
+    private static Expression<Func<AppleCustomerDocument, bool>> GetPredicate(GetMultipleAppleCustomers query)
     {
-        Expression<Func<GoogleLocationDocument, bool>> expression = user => user.Type == UserTypes.GoogleLocation;
+        Expression<Func<AppleCustomerDocument, bool>> expression = user => user.Type == UserTypes.AppleCustomer;
 
         if (query.Id.HasValue)
         {
@@ -72,35 +71,35 @@ public class GetMultipleGoogleLocationsHandler : IQueryHandler<GetMultipleGoogle
         {
             expression = expression.And(user => user.Region == query.Region);
         }
+
+        if (!string.IsNullOrEmpty(query.AppleId))
+        {
+            expression = expression.And(user => user.AppleId == query.AppleId);
+        }
         
-        if (!string.IsNullOrEmpty(query.Address))
+        if (!string.IsNullOrEmpty(query.FirstName))
         {
-            expression = expression.And(user => user.Address == query.Address);
+            expression = expression.And(user => user.FirstName == query.FirstName);
         }
 
-        if (!string.IsNullOrEmpty(query.Name))
+        if (!string.IsNullOrEmpty(query.LastName))
         {
-            expression = expression.And(user => user.Name == query.Name);
+            expression = expression.And(user => user.LastName == query.LastName);
         }
 
-        if (!string.IsNullOrEmpty(query.Description))
+        if (query.DateOfBirth.HasValue)
         {
-            expression = expression.And(user => user.Description == query.Description);
+            expression = expression.And(user => user.DateOfBirth == query.DateOfBirth);
         }
 
-        if (query.EstabilishedDate.HasValue)
+        if (query.DateOfBirthFrom.HasValue)
         {
-            expression = expression.And(user => user.EstabilishedDate == query.EstabilishedDate);
+            expression = expression.And(user => user.DateOfBirth >= query.DateOfBirthFrom);
         }
 
-        if (query.EstabilishedDateFrom.HasValue)
+        if (query.DateOfBirthTo.HasValue)
         {
-            expression = expression.And(user => user.EstabilishedDate >= query.EstabilishedDateFrom);
-        }
-
-        if (query.EstabilishedDateTo.HasValue)
-        {
-            expression = expression.And(user => user.EstabilishedDate <= query.EstabilishedDateTo);
+            expression = expression.And(user => user.DateOfBirth <= query.DateOfBirthTo);
         }
 
         if (query.TermsAndServicesAccepted.HasValue)

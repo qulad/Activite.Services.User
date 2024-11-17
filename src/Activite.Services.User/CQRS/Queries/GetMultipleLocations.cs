@@ -5,7 +5,7 @@ using Convey.CQRS.Queries;
 
 namespace Activite.Services.User.CQRS.Queries;
 
-public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<GoogleLocationDto>>
+public class GetMultipleLocations : PagedQueryBase, IQuery<PagedResult<LocationDto>>
 {
     public Guid? Id { get; set; }
 
@@ -14,8 +14,6 @@ public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<Goo
     public string PhoneNumber { get; set; }
 
     public string Region { get; set; }
-
-    public string GoogleId { get; set; }
 
     public string Address { get; set; }
 
@@ -45,12 +43,11 @@ public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<Goo
 
     public DateTimeOffset? UpdatedAtTo { get; set; }
 
-    public GetMultipleGoogleLocations(
+    public GetMultipleLocations(
         Guid? id = null,
         string email = null,
         string phoneNumber = null,
         string region = null,
-        string googleId = null,
         string address = null,
         string name = null,
         string description = null,
@@ -74,7 +71,6 @@ public class GetMultipleGoogleLocations : PagedQueryBase, IQuery<PagedResult<Goo
         Email = email;
         PhoneNumber = phoneNumber;
         Region = region;
-        GoogleId = googleId;
         Address = address;
         Name = name;
         Description = description;

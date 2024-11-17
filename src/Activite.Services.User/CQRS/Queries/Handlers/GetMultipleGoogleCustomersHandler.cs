@@ -7,22 +7,19 @@ using Activite.Services.User.DTOs;
 using Activite.Services.User.Mongo.Documents;
 using Convey.CQRS.Queries;
 using Convey.Persistence.MongoDB;
-using Microsoft.Extensions.Logging;
 
 namespace Activite.Services.User.CQRS.Queries.Handlers;
 
-public class GetMultipleUsersHandler : IQueryHandler<GetMultipleUsers, PagedResult<UserDto>>
+public class GetMultipleGoogleCustomersHandler : IQueryHandler<GetMultipleGoogleCustomers, PagedResult<GoogleCustomerDto>>
 {
-    private readonly IMongoRepository<UserDocument, Guid> _repository;
-    private readonly ILogger<GetMultipleUsersHandler> _logger;
+    private readonly IMongoRepository<GoogleCustomerDocument, Guid> _repository;
 
-    public GetMultipleUsersHandler(IMongoRepository<UserDocument, Guid> repository, ILogger<GetMultipleUsersHandler> logger)
+    public GetMultipleGoogleCustomersHandler(IMongoRepository<GoogleCustomerDocument, Guid> repository)
     {
         _repository = repository;
-        _logger = logger;
     }
 
-    public async Task<PagedResult<UserDto>> HandleAsync(GetMultipleUsers query, CancellationToken cancellationToken = default)
+    public async Task<PagedResult<GoogleCustomerDto>> HandleAsync(GetMultipleGoogleCustomers query, CancellationToken cancellationToken = default)
     {
         var predicate = GetPredicate(query);
 
@@ -30,28 +27,30 @@ public class GetMultipleUsersHandler : IQueryHandler<GetMultipleUsers, PagedResu
 
         if (users is null || users.IsEmpty)
         {
-            _logger.LogWarning("No users were found.");
-
-            return PagedResult<UserDto>.Empty;
+            return PagedResult<GoogleCustomerDto>.Empty;
         }
 
-        return users.Map(item => new UserDto
+        return users.Map(user => new GoogleCustomerDto
         {
-            Id = item.Id,
-            Email = item.Email,
-            PhoneNumber = item.PhoneNumber,
-            Region = item.Region,
-            Type = item.Type,
-            TermsAndServicesAccepted = item.TermsAndServicesAccepted,
-            Verified = item.Verified,
-            CreatedAt = item.CreatedAt,
-            UpdatedAt = item.UpdatedAt
+            Id = user.Id,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            GoogleId = user.GoogleId,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            DateOfBirth = user.DateOfBirth,
+            Region = user.Region,
+            Type = user.Type,
+            TermsAndServicesAccepted = user.TermsAndServicesAccepted,
+            Verified = user.Verified,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt
         });
     }
 
-    private static Expression<Func<UserDocument, bool>> GetPredicate(GetMultipleUsers query)
+    private static Expression<Func<GoogleCustomerDocument, bool>> GetPredicate(GetMultipleGoogleCustomers query)
     {
-        Expression<Func<UserDocument, bool>> expression = user => true;
+        Expression<Func<GoogleCustomerDocument, bool>> expression = user => user.Type == UserTypes.GoogleCustomer;
 
         if (query.Id.HasValue)
         {
@@ -73,9 +72,34 @@ public class GetMultipleUsersHandler : IQueryHandler<GetMultipleUsers, PagedResu
             expression = expression.And(user => user.Region == query.Region);
         }
 
-        if (!string.IsNullOrEmpty(query.Type) && UserTypes.All.Contains(query.Type))
+        if (!string.IsNullOrEmpty(query.GoogleId))
         {
-            expression = expression.And(user => user.Type == query.Type);
+            expression = expression.And(user => user.GoogleId == query.GoogleId);
+        }
+        
+        if (!string.IsNullOrEmpty(query.FirstName))
+        {
+            expression = expression.And(user => user.FirstName == query.FirstName);
+        }
+
+        if (!string.IsNullOrEmpty(query.LastName))
+        {
+            expression = expression.And(user => user.LastName == query.LastName);
+        }
+
+        if (query.DateOfBirth.HasValue)
+        {
+            expression = expression.And(user => user.DateOfBirth == query.DateOfBirth);
+        }
+
+        if (query.DateOfBirthFrom.HasValue)
+        {
+            expression = expression.And(user => user.DateOfBirth >= query.DateOfBirthFrom);
+        }
+
+        if (query.DateOfBirthTo.HasValue)
+        {
+            expression = expression.And(user => user.DateOfBirth <= query.DateOfBirthTo);
         }
 
         if (query.TermsAndServicesAccepted.HasValue)
