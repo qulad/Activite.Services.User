@@ -37,7 +37,8 @@ public static class Extensions
             .UseGoogleLocationEndpoints()
             .UseGoogleCustomerEndpoints()
             .UseCustomerEndpoints()
-            .UseGoogleLocationEndpoints();
+            .UseLocationEndpoints()
+            .UseUserEndpoints();
 
         return endpoints;
     }
@@ -91,11 +92,19 @@ public static class Extensions
         return endpoints;
     }
 
-    private static IDispatcherEndpointsBuilder UseLocationEndpoints(this DispatcherEndpointsBuilder endpoints)
+    private static IDispatcherEndpointsBuilder UseLocationEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
             .Get<GetLocation, LocationDto>("/Location/{id}")
             .Get<GetMultipleLocations, PagedResult<LocationDto>>("/Location");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseUserEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Get<GetMultipleUsers, PagedResult<UserDto>>("/User");
 
         return endpoints;
     }
