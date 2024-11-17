@@ -26,22 +26,42 @@ public class AddGoogleLocationHandler : ICommandHandler<AddGoogleLocation>
 
         if (command.Id == Guid.Empty)
         {
-            throw new ArgumentException("User id cannot be empty.");
+            throw new ArgumentException("Google location id cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(command.Address))
+        {
+            throw new ArgumentException("Google location address cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(command.Name))
+        {
+            throw new ArgumentException("Google location name cannot be empty.");
+        }
+
+        if (string.IsNullOrEmpty(command.Description))
+        {
+            throw new ArgumentException("Google location description cannot be empty.");
+        }
+
+        if (command.EstabilishedDate == DateOnly.MinValue)
+        {
+            throw new ArgumentException("Google location estabilished date of birth is invalid.");
         }
 
         if (string.IsNullOrEmpty(command.Email))
         {
-            throw new ArgumentException("User email cannot be empty.");
+            throw new ArgumentException("Google location email cannot be empty.");
         }
 
         if (string.IsNullOrEmpty(command.Region))
         {
-            throw new ArgumentException("User region cannot be empty.");
+            throw new ArgumentException("Google location region cannot be empty.");
         }
 
         if (string.IsNullOrEmpty(command.GoogleId))
         {
-            throw new ArgumentException("User type is invalid.");
+            throw new ArgumentException("Google location type is invalid.");
         }
 
         var user = new GoogleLocationDocument
@@ -53,8 +73,13 @@ public class AddGoogleLocationHandler : ICommandHandler<AddGoogleLocation>
             Type = UserTypes.GoogleLocation,
             TermsAndServicesAccepted = false,
             Verified = false,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = null,
+            Address = command.Address,
+            Name = command.Name,
+            Description = command.Description,
+            EstabilishedDate = command.EstabilishedDate,
             GoogleId = command.GoogleId,
-            CreatedAt = DateTimeOffset.UtcNow
         };
 
         await _repository.AddAsync(user);
