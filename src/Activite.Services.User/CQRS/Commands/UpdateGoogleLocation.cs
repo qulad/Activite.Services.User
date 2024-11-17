@@ -9,11 +9,11 @@ public class UpdateGoogleLocation : ICommand
 {
     public Guid Id { get; set; }
 
-    public string PhoneNumber { get; set; }
+    public string Address { get; set; }
 
-    public string Region { get; set; }
+    public string Name { get; set; }
 
-    public string Location { get; set; }
+    public string Description { get; set; }
 
     public bool TermsAndServicesAccepted { get; set; }
 
@@ -21,16 +21,16 @@ public class UpdateGoogleLocation : ICommand
 
     public UpdateGoogleLocation(
         Guid id,
-        string phoneNumber,
-        string region,
-        string location,
+        string address,
+        string name,
+        string description,
         bool termsAndServicesAccepted,
         bool verified)
     {
         Id = id;
-        PhoneNumber = phoneNumber;
-        Region = region;
-        Location = location;
+        Address = address;
+        Name = name;
+        Description = description;
         TermsAndServicesAccepted = termsAndServicesAccepted;
         Verified = verified;
     }

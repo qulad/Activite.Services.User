@@ -26,15 +26,15 @@ public class UpdateGoogleLocationHandler : ICommandHandler<UpdateGoogleLocation>
 
         if (command.Id == Guid.Empty)
         {
-            throw new ArgumentException("User id cannot be empty.");
+            throw new ArgumentException("Google location id cannot be empty.");
         }
 
         var existingUser = await _repository.GetAsync(x => x.Id == command.Id && x.Type == UserTypes.GoogleLocation)
-            ?? throw new ArgumentException($"User with Id: '{command.Id}' was not found.");
+            ?? throw new ArgumentException($"Google location with Id: '{command.Id}' was not found.");
 
-        existingUser.PhoneNumber = command.PhoneNumber;
-        existingUser.Region = command.Region;
-        existingUser.Location = command.Location;
+        existingUser.Address = command.Address;
+        existingUser.Name = command.Name;
+        existingUser.Description = command.Description;
         existingUser.TermsAndServicesAccepted = command.TermsAndServicesAccepted;
         existingUser.Verified = command.Verified;
         existingUser.UpdatedAt = DateTimeOffset.UtcNow;

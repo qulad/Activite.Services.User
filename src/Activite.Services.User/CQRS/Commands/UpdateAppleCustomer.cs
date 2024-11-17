@@ -5,28 +5,28 @@ using Convey.CQRS.Commands;
 namespace Activite.Services.User.CQRS.Commands;
 
 [Contract]
-public class UpdateAppleUser : ICommand
+public class UpdateAppleCustomer : ICommand
 {
     public Guid Id { get; set; }
 
-    public string PhoneNumber { get; set; }
+    public string FirstName { get; set; }
 
-    public string Region { get; set; }
+    public string LastName { get; set; }
 
     public bool TermsAndServicesAccepted { get; set; }
 
     public bool Verified { get; set; }
 
-    public UpdateAppleUser(
+    public UpdateAppleCustomer(
         Guid id,
-        string phoneNumber,
-        string region,
+        string firstName,
+        string lastName,
         bool termsAndServicesAccepted,
         bool verified)
     {
         Id = id;
-        PhoneNumber = phoneNumber;
-        Region = region;
+        FirstName = firstName;
+        LastName = lastName;
         TermsAndServicesAccepted = termsAndServicesAccepted;
         Verified = verified;
     }

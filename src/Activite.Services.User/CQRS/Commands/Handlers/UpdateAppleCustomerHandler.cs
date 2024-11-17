@@ -8,16 +8,16 @@ using Convey.Persistence.MongoDB;
 
 namespace Activite.Services.User.CQRS.Commands.Handlers;
 
-public class UpdateGoogleCustomerHandler : ICommandHandler<UpdateGoogleCustomer>
+public class UpdateAppleCustomerHandler : ICommandHandler<UpdateAppleCustomer>
 {
-    private readonly IMongoRepository<GoogleCustomerDocument, Guid> _repository;
+    private readonly IMongoRepository<AppleCustomerDocument, Guid> _repository;
 
-    public UpdateGoogleCustomerHandler(IMongoRepository<GoogleCustomerDocument, Guid> repository)
+    public UpdateAppleCustomerHandler(IMongoRepository<AppleCustomerDocument, Guid> repository)
     {
         _repository = repository;
     }
 
-    public async Task HandleAsync(UpdateGoogleCustomer command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(UpdateAppleCustomer command, CancellationToken cancellationToken = default)
     {
         if (command is null)
         {
@@ -26,11 +26,11 @@ public class UpdateGoogleCustomerHandler : ICommandHandler<UpdateGoogleCustomer>
 
         if (command.Id == Guid.Empty)
         {
-            throw new ArgumentException("Google customer id cannot be empty.");
+            throw new ArgumentException("Apple customer id cannot be empty.");
         }
 
-        var existingUser = await _repository.GetAsync(x => x.Id == command.Id && x.Type == UserTypes.GoogleCustomer)
-            ?? throw new ArgumentException($"Google customer with Id: '{command.Id}' was not found.");
+        var existingUser = await _repository.GetAsync(x => x.Id == command.Id && x.Type == UserTypes.AppleCustomer)
+            ?? throw new ArgumentException($"Apple customer with Id: '{command.Id}' was not found.");
 
         existingUser.FirstName = command.FirstName;
         existingUser.LastName = command.LastName;
