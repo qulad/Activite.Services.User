@@ -1,6 +1,6 @@
 namespace Activite.Services.User.DTOs;
 
-public class GoogleUserDto : UserDto
+public class GoogleCustomerDto : CustomerDto
 {
     public string GoogleId { get; set; }
 }

@@ -1,6 +1,6 @@
 namespace Activite.Services.User.DTOs;
 
-public class AppleUserDto : UserDto
+public class AppleCustomerDto : CustomerDto
 {
     public string AppleId { get; set; }
 }
