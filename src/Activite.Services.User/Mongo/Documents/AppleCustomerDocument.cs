@@ -1,6 +1,6 @@
 namespace Activite.Services.User.Mongo.Documents;
 
-public class AppleUserDocument : UserDocument
+public class AppleCustomerDocument : CustomerDocument
 {
     public string AppleId { get; set; }
 }

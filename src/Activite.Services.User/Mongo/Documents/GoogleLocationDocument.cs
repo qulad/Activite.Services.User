@@ -1,6 +1,6 @@
 namespace Activite.Services.User.Mongo.Documents;
 
-public class GoogleLocationDocument : GoogleUserDocument
+public class GoogleLocationDocument : LocationDocument
 {
-    public string Location { get; set; }
+    public string GoogleId { get; set; }
 }

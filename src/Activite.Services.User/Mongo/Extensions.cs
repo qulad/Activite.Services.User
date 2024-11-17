@@ -16,10 +16,12 @@ public static class Extensions
     {
         builder
             .AddMongo()
-            .AddMongoRepository<AppleUserDocument, Guid>(AppleUserDocument.CollectionName)
-            .AddMongoRepository<UserDocument, Guid>(UserDocument.CollectionName)
+            .AddMongoRepository<AppleCustomerDocument, Guid>(AppleCustomerDocument.CollectionName)
+            .AddMongoRepository<CustomerDocument, Guid>(CustomerDocument.CollectionName)
             .AddMongoRepository<GoogleLocationDocument, Guid>(GoogleLocationDocument.CollectionName)
-            .AddMongoRepository<GoogleUserDocument, Guid>(GoogleUserDocument.CollectionName);
+            .AddMongoRepository<GoogleCustomerDocument, Guid>(GoogleCustomerDocument.CollectionName)
+            .AddMongoRepository<LocationDocument, Guid>(LocationDocument.CollectionName)
+            .AddMongoRepository<UserDocument, Guid>(UserDocument.CollectionName);
 
         return builder;
     }

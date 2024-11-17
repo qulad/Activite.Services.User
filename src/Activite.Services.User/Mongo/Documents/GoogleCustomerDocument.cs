@@ -1,6 +1,6 @@
 namespace Activite.Services.User.Mongo.Documents;
 
-public class GoogleUserDocument : UserDocument
+public class GoogleCustomerDocument : CustomerDocument
 {
     public string GoogleId { get; set; }
 }
