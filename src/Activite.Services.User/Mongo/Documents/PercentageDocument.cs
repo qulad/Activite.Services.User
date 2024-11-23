@@ -1,6 +1,6 @@
 namespace Activite.Services.User.Mongo.Documents;
 
-public class PercentageDocument : CouponDocument
+public class PercentageCouponDocument : CouponDocument
 {
     public int Percentage { get; set; }
 

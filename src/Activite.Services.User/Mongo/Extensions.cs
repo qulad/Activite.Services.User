@@ -32,7 +32,7 @@ public static class Extensions
             .AddMongoRepository<LocationDocument, Guid>(LocationDocument.CollectionName)
             .AddMongoRepository<LocationWalletDocument, Guid>(LocationWalletDocument.CollectionName)
             .AddMongoRepository<OfferDocument, Guid>(OfferDocument.CollectionName)
-            .AddMongoRepository<PercentageDocument, Guid>(PercentageDocument.CollectionName)
+            .AddMongoRepository<PercentageCouponDocument, Guid>(PercentageCouponDocument.CollectionName)
             .AddMongoRepository<TicketDocument, Guid>(TicketDocument.CollectionName)
             .AddMongoRepository<TransactionDocument, Guid>(TransactionDocument.CollectionName)
             .AddMongoRepository<TranslationDocument, Guid>(TranslationDocument.CollectionName)
