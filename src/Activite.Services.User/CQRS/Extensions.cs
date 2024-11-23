@@ -153,7 +153,8 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseCustomerCommentEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Post<AddCustomerComment>("/CustomerComment");
+            .Post<AddCustomerComment>("/CustomerComment")
+            .Delete<DeleteCustomerComment>("/CustomerComment");
 
         return endpoints;
     }
@@ -161,7 +162,8 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseLocationCommentEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Post<AddLocationComment>("/LocationComment");
+            .Post<AddLocationComment>("/LocationComment")
+            .Delete<DeleteLocationComment>("/LocationComment");
 
         return endpoints;
     }
