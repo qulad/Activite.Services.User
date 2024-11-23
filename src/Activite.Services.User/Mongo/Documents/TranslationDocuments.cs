@@ -13,7 +13,7 @@ public class TranslationDocument : IIdentifiable<Guid>
 
     public string Content { get; set; }
 
-    public decimal Region { get; set; }
+    public string Region { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }
 
