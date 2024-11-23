@@ -17,6 +17,8 @@ public class AddAmountCoupon : ICommand
 
     public decimal MinimalSpendingAmount { get; set; }
 
+    public DateTimeOffset ExpiresAt { get; set; }
+
     public decimal Amount { get; set; }
 
     public AddAmountCoupon(
@@ -25,6 +27,7 @@ public class AddAmountCoupon : ICommand
         string currency,
         string name,
         decimal minimalSpendingAmount,
+        DateTimeOffset expiresAt,
         decimal amount)
     {
         Id = id;
@@ -32,6 +35,7 @@ public class AddAmountCoupon : ICommand
         Currency = currency;
         Name = name;
         MinimalSpendingAmount = minimalSpendingAmount;
+        ExpiresAt = expiresAt;
         Amount = amount;
     }
 }

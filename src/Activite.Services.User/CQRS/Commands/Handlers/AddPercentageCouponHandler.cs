@@ -49,6 +49,11 @@ public class AddPercentageCouponHandler : ICommandHandler<AddPercentageCoupon>
             throw new ArgumentException("Coupon name cannot be empty.");
         }
 
+        if (command.ExpiresAt == default)
+        {
+            throw new ArgumentException("Coupon expiration date cannot be empty.");
+        }
+
         var percentageCoupon = new PercentageCouponDocument
         {
             Id = command.Id,
@@ -57,6 +62,7 @@ public class AddPercentageCouponHandler : ICommandHandler<AddPercentageCoupon>
             Name = command.Name,
             Type = CouponTypes.Percentage,
             MinimalSpendingAmount = command.MinimalSpendingAmount,
+            ExpiresAt = command.ExpiresAt,
             UsedAt = null,
             CreatedAt = DateTimeOffset.UtcNow,
             Percentage = command.Percentage,

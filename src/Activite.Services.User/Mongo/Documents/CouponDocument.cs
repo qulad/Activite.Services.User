@@ -19,6 +19,8 @@ public class CouponDocument : IIdentifiable<Guid>
 
     public decimal MinimalSpendingAmount { get; set; }
 
+    public DateTimeOffset ExpiresAt { get; set; }
+
     public DateTimeOffset? UsedAt { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; }

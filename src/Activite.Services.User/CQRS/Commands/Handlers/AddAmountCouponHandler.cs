@@ -44,10 +44,14 @@ public class AddAmountCouponHandler : ICommandHandler<AddAmountCoupon>
             throw new ArgumentException("Coupon currency is invalid.");
         }
 
-
         if (string.IsNullOrEmpty(command.Name))
         {
             throw new ArgumentException("Coupon name cannot be empty.");
+        }
+
+        if (command.ExpiresAt == default)
+        {
+            throw new ArgumentException("Coupon expiration date cannot be empty.");
         }
 
         var amountCoupon = new AmountCouponDocument
@@ -58,6 +62,7 @@ public class AddAmountCouponHandler : ICommandHandler<AddAmountCoupon>
             Name = command.Name,
             Type = CouponTypes.Amount,
             MinimalSpendingAmount = command.MinimalSpendingAmount,
+            ExpiresAt = command.ExpiresAt,
             UsedAt = null,
             CreatedAt = DateTimeOffset.UtcNow,
             Amount = command.Amount

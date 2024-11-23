@@ -17,6 +17,8 @@ public class AddPercentageCoupon : ICommand
 
     public decimal MinimalSpendingAmount { get; set; }
 
+    public DateTimeOffset ExpiresAt { get; set; }
+
     public int Percentage { get; set; }
 
     public decimal MaxDiscountAmount { get; set; }
@@ -27,6 +29,7 @@ public class AddPercentageCoupon : ICommand
         string currency,
         string name,
         decimal minimalSpendingAmount,
+        DateTimeOffset expiresAt,
         int percentage,
         decimal maxDiscountAmount)
     {
@@ -35,6 +38,7 @@ public class AddPercentageCoupon : ICommand
         Currency = currency;
         Name = name;
         MinimalSpendingAmount = minimalSpendingAmount;
+        ExpiresAt = expiresAt;
         Percentage = percentage;
         MaxDiscountAmount = maxDiscountAmount;
     }
