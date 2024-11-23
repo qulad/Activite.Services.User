@@ -129,7 +129,8 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseOfferEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Post<AddOffer>("/Offer");
+            .Post<AddOffer>("/Offer")
+            .Put<UpdateOffer>("/Offer");
 
         return endpoints;
     }
@@ -154,6 +155,7 @@ public static class Extensions
     {
         endpoints
             .Post<AddCustomerComment>("/CustomerComment")
+            .Put<UpdateCustomerComment>("/CustomerComment")
             .Delete<DeleteCustomerComment>("/CustomerComment");
 
         return endpoints;
@@ -163,6 +165,7 @@ public static class Extensions
     {
         endpoints
             .Post<AddLocationComment>("/LocationComment")
+            .Put<UpdateLocationComment>("/LocationComment")
             .Delete<DeleteLocationComment>("/LocationComment");
 
         return endpoints;
@@ -171,7 +174,8 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseEventEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Post<AddEvent>("/Event");
+            .Post<AddEvent>("/Event")
+            .Put<UpdateEvent>("/Event");
 
         return endpoints;
     }
@@ -187,7 +191,8 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UsePercentageCouponEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Post<AddPercentageCoupon>("/PercentageCoupon");
+            .Post<AddPercentageCoupon>("/PercentageCoupon")
+            .Put<UpdatePercentageCoupon>("/PercentageCoupon");
 
         return endpoints;
     }
@@ -195,7 +200,8 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseAmountCouponEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
-            .Post<AddAmountCoupon>("/AmountCoupon");
+            .Post<AddAmountCoupon>("/AmountCoupon")
+            .Put<UpdateAmountCoupon>("/AmountCoupon");
 
         return endpoints;
     }
