@@ -8,7 +8,6 @@ using Convey.Discovery.Consul;
 using Convey.HTTP;
 using Convey.WebApi;
 using Convey.WebApi.CQRS;
-using Convey.WebApi.CQRS.Builders;
 using Microsoft.AspNetCore.Http;
 
 namespace Activite.Services.User.CQRS;
@@ -38,7 +37,17 @@ public static class Extensions
             .UseGoogleCustomerEndpoints()
             .UseCustomerEndpoints()
             .UseLocationEndpoints()
-            .UseUserEndpoints();
+            .UseUserEndpoints()
+            .UseVisualMediaEndpoints()
+            .UseOfferEndpoints()
+            .UseAgeRestrictionEndpoints()
+            .UseTranslationEndpoints()
+            .UseCustomerCommentEndpoints()
+            .UseLocationCommentEndpoints()
+            .UseEventEndpoints()
+            .UseTicketEndpoints()
+            .UsePercentageCouponEndpoints()
+            .UseAmountCouponEndpoints();
 
         return endpoints;
     }
@@ -105,6 +114,86 @@ public static class Extensions
     {
         endpoints
             .Get<GetMultipleUsers, PagedResult<UserDto>>("/User");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseVisualMediaEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddVisualMedia>("/VisualMedia");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseOfferEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddOffer>("/Offer");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseAgeRestrictionEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddAgeRestriction>("/AgeRestriction");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseTranslationEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddTranslation>("/Translation");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseCustomerCommentEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddCustomerComment>("/CustomerComment");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseLocationCommentEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddLocationComment>("/LocationComment");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseEventEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddEvent>("/Event");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseTicketEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddTicket>("/Ticket");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UsePercentageCouponEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddPercentageCoupon>("/PercentageCoupon");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseAmountCouponEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<AddAmountCoupon>("/AmountCoupon");
 
         return endpoints;
     }
