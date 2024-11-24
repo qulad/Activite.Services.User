@@ -47,7 +47,8 @@ public static class Extensions
             .UseEventEndpoints()
             .UseTicketEndpoints()
             .UsePercentageCouponEndpoints()
-            .UseAmountCouponEndpoints();
+            .UseAmountCouponEndpoints()
+            .UseTransactionEndpoints();
 
         return endpoints;
     }
@@ -122,6 +123,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetVisualMedia, VisualMediaDto>("/VisualMedia/{id}")
+            .Get<GetMultipleVisualMedias, PagedResult<VisualMediaDto>>("/VisualMedia")
             .Post<AddVisualMedia>("/VisualMedia");
 
         return endpoints;
@@ -131,6 +133,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetOffer, OfferDto>("/Offer/{id}")
+            .Get<GetMultipleOffers, PagedResult<OfferDto>>("/Offer")
             .Post<AddOffer>("/Offer")
             .Put<UpdateOffer>("/Offer");
 
@@ -141,6 +144,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetAgeRestriction, AgeRestrictionDto>("/AgeRestriction/{id}")
+            .Get<GetMultipleAgeRestrictions, PagedResult<AgeRestrictionDto>>("/AgeRestriction")
             .Post<AddAgeRestriction>("/AgeRestriction");
 
         return endpoints;
@@ -150,6 +154,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetTranslation, TranslationDto>("/Translation/{id}")
+            .Get<GetMultipleTranslations, PagedResult<TranslationDto>>("/Translation")
             .Post<AddTranslation>("/Translation");
 
         return endpoints;
@@ -159,6 +164,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetCustomerComment, CustomerCommentDto>("/CustomerComment/{id}")
+            .Get<GetMultipleCustomerComments, PagedResult<CustomerCommentDto>>("/CustomerComment")
             .Post<AddCustomerComment>("/CustomerComment")
             .Put<UpdateCustomerComment>("/CustomerComment")
             .Delete<DeleteCustomerComment>("/CustomerComment");
@@ -170,6 +176,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetLocationComment, LocationCommentDto>("/LocationComment/{id}")
+            .Get<GetMultipleLocationComments, PagedResult<LocationCommentDto>>("/LocationComment")
             .Post<AddLocationComment>("/LocationComment")
             .Put<UpdateLocationComment>("/LocationComment")
             .Delete<DeleteLocationComment>("/LocationComment");
@@ -181,6 +188,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetEvent, EventDto>("/Event/{id}")
+            .Get<GetMultipleEvents, PagedResult<EventDto>>("/Event")
             .Post<AddEvent>("/Event")
             .Put<UpdateEvent>("/Event");
 
@@ -191,6 +199,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetTicket, TicketDto>("/Ticket/{id}")
+            .Get<GetMultipleTickets, PagedResult<TicketDto>>("/Ticket")
             .Post<AddTicket>("/Ticket");
 
         return endpoints;
@@ -200,6 +209,7 @@ public static class Extensions
     {
         endpoints
             .Get<GetPercentageCoupon, PercentageCouponDto>("/PercentageCoupon/{id}")
+            .Get<GetMultiplePercentageCoupons, PagedResult<PercentageCouponDto>>("/PercentageCoupon")
             .Post<AddPercentageCoupon>("/PercentageCoupon")
             .Put<UpdatePercentageCoupon>("/PercentageCoupon");
 
@@ -210,8 +220,18 @@ public static class Extensions
     {
         endpoints
             .Get<GetAmountCoupon, AmountCouponDto>("/AmountCoupon/{id}")
+            .Get<GetMultipleAmountCoupons, PagedResult<AmountCouponDto>>("/AmountCoupon")
             .Post<AddAmountCoupon>("/AmountCoupon")
             .Put<UpdateAmountCoupon>("/AmountCoupon");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseTransactionEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Get<GetTransaction, TransactionDto>("/Transaction/{id}")
+            .Get<GetMultipleTransactions, PagedResult<TransactionDto>>("/Transaction");
 
         return endpoints;
     }
