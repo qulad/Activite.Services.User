@@ -11,10 +11,14 @@ namespace Activite.Services.User.CQRS.Commands.Handlers;
 public class AddAppleCustomerHandler : ICommandHandler<AddAppleCustomer>
 {
     private readonly IMongoRepository<AppleCustomerDocument, Guid> _repository;
+    private readonly IMongoRepository<CustomerWalletDocument, Guid> _walletRepository;
 
-    public AddAppleCustomerHandler(IMongoRepository<AppleCustomerDocument, Guid> repository)
+    public AddAppleCustomerHandler(
+        IMongoRepository<AppleCustomerDocument, Guid> repository,
+        IMongoRepository<CustomerWalletDocument, Guid> walletRepository)
     {
         _repository = repository;
+        _walletRepository = walletRepository;
     }
 
     public async Task HandleAsync(AddAppleCustomer command, CancellationToken cancellationToken = default)
@@ -58,6 +62,26 @@ public class AddAppleCustomerHandler : ICommandHandler<AddAppleCustomer>
         {
             throw new ArgumentException("Apple customer type is invalid.");
         }
+
+        var existingWallet = await _walletRepository.GetAsync(w => w.CustomerId == command.Id);
+
+        if (existingWallet is not null)
+        {
+            throw new InvalidOperationException($"Customer wallet with customer id: '{command.Id}' already exists.");
+        }
+
+        var wallet = new CustomerWalletDocument
+        {
+            Id = Guid.NewGuid(),
+            CustomerId = command.Id,
+            Currency = Currencies.TRY,
+            Type = WalletTypes.Customer,
+            Amount = 0,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = null
+        };
+
+        await _walletRepository.AddAsync(wallet);
 
         var user = new AppleCustomerDocument
         {

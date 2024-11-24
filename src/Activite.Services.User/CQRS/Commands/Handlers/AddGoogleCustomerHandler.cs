@@ -11,10 +11,14 @@ namespace Activite.Services.User.CQRS.Commands.Handlers;
 public class AddGoogleCustomerHandler : ICommandHandler<AddGoogleCustomer>
 {
     private readonly IMongoRepository<GoogleCustomerDocument, Guid> _repository;
+    private readonly IMongoRepository<CustomerWalletDocument, Guid> _walletRepository;
 
-    public AddGoogleCustomerHandler(IMongoRepository<GoogleCustomerDocument, Guid> repository)
+    public AddGoogleCustomerHandler(
+        IMongoRepository<GoogleCustomerDocument, Guid> repository,
+        IMongoRepository<CustomerWalletDocument, Guid> walletRepository)
     {
         _repository = repository;
+        _walletRepository = walletRepository;
     }
 
     public async Task HandleAsync(AddGoogleCustomer command, CancellationToken cancellationToken = default)
@@ -58,6 +62,26 @@ public class AddGoogleCustomerHandler : ICommandHandler<AddGoogleCustomer>
         {
             throw new ArgumentException("Google customer type is invalid.");
         }
+        
+        var existingWallet = await _walletRepository.GetAsync(w => w.CustomerId == command.Id);
+
+        if (existingWallet is not null)
+        {
+            throw new InvalidOperationException($"Customer wallet with customer id: '{command.Id}' already exists.");
+        }
+
+        var wallet = new CustomerWalletDocument
+        {
+            Id = Guid.NewGuid(),
+            CustomerId = command.Id,
+            Currency = Currencies.TRY,
+            Type = WalletTypes.Customer,
+            Amount = 0,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = null
+        };
+
+        await _walletRepository.AddAsync(wallet);
 
         var user = new GoogleCustomerDocument
         {

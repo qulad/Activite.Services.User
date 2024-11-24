@@ -11,10 +11,14 @@ namespace Activite.Services.User.CQRS.Commands.Handlers;
 public class AddGoogleLocationHandler : ICommandHandler<AddGoogleLocation>
 {
     private readonly IMongoRepository<GoogleLocationDocument, Guid> _repository;
+    private readonly IMongoRepository<LocationWalletDocument, Guid> _walletRepository;
 
-    public AddGoogleLocationHandler(IMongoRepository<GoogleLocationDocument, Guid> repository)
+    public AddGoogleLocationHandler(
+        IMongoRepository<GoogleLocationDocument, Guid> repository,
+        IMongoRepository<LocationWalletDocument, Guid> walletRepository)
     {
         _repository = repository;
+        _walletRepository = walletRepository;
     }
 
     public async Task HandleAsync(AddGoogleLocation command, CancellationToken cancellationToken = default)
@@ -63,6 +67,26 @@ public class AddGoogleLocationHandler : ICommandHandler<AddGoogleLocation>
         {
             throw new ArgumentException("Google location type is invalid.");
         }
+
+        var existingWallet = await _walletRepository.GetAsync(w => w.LocationId == command.Id);
+
+        if (existingWallet is not null)
+        {
+            throw new InvalidOperationException($"Location wallet with location id: '{command.Id}' already exists.");
+        }
+
+        var wallet = new LocationWalletDocument
+        {
+            Id = Guid.NewGuid(),
+            LocationId = command.Id,
+            Currency = Currencies.TRY,
+            Type = WalletTypes.Location,
+            Amount = 0,
+            CreatedAt = DateTimeOffset.UtcNow,
+            UpdatedAt = null
+        };
+
+        await _walletRepository.AddAsync(wallet);
 
         var user = new GoogleLocationDocument
         {
