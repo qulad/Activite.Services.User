@@ -121,6 +121,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseVisualMediaEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetVisualMedia, VisualMediaDto>("/VisualMedia/{id}")
             .Post<AddVisualMedia>("/VisualMedia");
 
         return endpoints;
@@ -129,6 +130,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseOfferEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetOffer, OfferDto>("/Offer/{id}")
             .Post<AddOffer>("/Offer")
             .Put<UpdateOffer>("/Offer");
 
@@ -138,6 +140,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseAgeRestrictionEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetAgeRestriction, AgeRestrictionDto>("/AgeRestriction/{id}")
             .Post<AddAgeRestriction>("/AgeRestriction");
 
         return endpoints;
@@ -146,6 +149,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseTranslationEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetTranslation, TranslationDto>("/Translation/{id}")
             .Post<AddTranslation>("/Translation");
 
         return endpoints;
@@ -154,6 +158,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseCustomerCommentEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetCustomerComment, CustomerCommentDto>("/CustomerComment/{id}")
             .Post<AddCustomerComment>("/CustomerComment")
             .Put<UpdateCustomerComment>("/CustomerComment")
             .Delete<DeleteCustomerComment>("/CustomerComment");
@@ -164,6 +169,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseLocationCommentEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetLocationComment, LocationCommentDto>("/LocationComment/{id}")
             .Post<AddLocationComment>("/LocationComment")
             .Put<UpdateLocationComment>("/LocationComment")
             .Delete<DeleteLocationComment>("/LocationComment");
@@ -174,6 +180,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseEventEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetEvent, EventDto>("/Event/{id}")
             .Post<AddEvent>("/Event")
             .Put<UpdateEvent>("/Event");
 
@@ -183,6 +190,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseTicketEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetTicket, TicketDto>("/Ticket/{id}")
             .Post<AddTicket>("/Ticket");
 
         return endpoints;
@@ -191,6 +199,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UsePercentageCouponEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetPercentageCoupon, PercentageCouponDto>("/PercentageCoupon/{id}")
             .Post<AddPercentageCoupon>("/PercentageCoupon")
             .Put<UpdatePercentageCoupon>("/PercentageCoupon");
 
@@ -200,6 +209,7 @@ public static class Extensions
     private static IDispatcherEndpointsBuilder UseAmountCouponEndpoints(this IDispatcherEndpointsBuilder endpoints)
     {
         endpoints
+            .Get<GetAmountCoupon, AmountCouponDto>("/AmountCoupon/{id}")
             .Post<AddAmountCoupon>("/AmountCoupon")
             .Put<UpdateAmountCoupon>("/AmountCoupon");
 
