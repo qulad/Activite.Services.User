@@ -33,6 +33,7 @@ public static class Extensions
         endpoints
             .UsePingEndpoint()
             .UseAppleCustomerEndpoints()
+            .UseFeedEndpoints()
             .UseGoogleLocationEndpoints()
             .UseGoogleCustomerEndpoints()
             .UseCustomerEndpoints()
@@ -68,6 +69,14 @@ public static class Extensions
             .Get<GetMultipleAppleCustomers, PagedResult<AppleCustomerDto>>("/AppleCustomer")
             .Post<AddAppleCustomer>("/AppleCustomer")
             .Put<UpdateAppleCustomer>("/AppleCustomer");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseFeedEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Get<GetFeed, PagedResult<EventDto>>("/Feed");
 
         return endpoints;
     }
