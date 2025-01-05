@@ -48,7 +48,8 @@ public static class Extensions
             .UseTicketEndpoints()
             .UsePercentageCouponEndpoints()
             .UseAmountCouponEndpoints()
-            .UseTransactionEndpoints();
+            .UseTransactionEndpoints()
+            .UseVerificationEndpoints();
 
         return endpoints;
     }
@@ -232,6 +233,14 @@ public static class Extensions
         endpoints
             .Get<GetTransaction, TransactionDto>("/Transaction/{id}")
             .Get<GetMultipleTransactions, PagedResult<TransactionDto>>("/Transaction");
+
+        return endpoints;
+    }
+
+    private static IDispatcherEndpointsBuilder UseVerificationEndpoints(this IDispatcherEndpointsBuilder endpoints)
+    {
+        endpoints
+            .Post<VerifyUser>("/VerifyUser");
 
         return endpoints;
     }
