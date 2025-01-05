@@ -17,21 +17,17 @@ public class UpdateGoogleLocation : ICommand
 
     public bool TermsAndServicesAccepted { get; set; }
 
-    public bool Verified { get; set; }
-
     public UpdateGoogleLocation(
         Guid id,
         string address,
         string name,
         string description,
-        bool termsAndServicesAccepted,
-        bool verified)
+        bool termsAndServicesAccepted)
     {
         Id = id;
         Address = address;
         Name = name;
         Description = description;
         TermsAndServicesAccepted = termsAndServicesAccepted;
-        Verified = verified;
     }
 }

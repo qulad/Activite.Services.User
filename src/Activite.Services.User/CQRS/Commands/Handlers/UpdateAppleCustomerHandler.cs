@@ -35,7 +35,6 @@ public class UpdateAppleCustomerHandler : ICommandHandler<UpdateAppleCustomer>
         existingUser.FirstName = command.FirstName;
         existingUser.LastName = command.LastName;
         existingUser.TermsAndServicesAccepted = command.TermsAndServicesAccepted;
-        existingUser.Verified = command.Verified;
         existingUser.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _repository.UpdateAsync(existingUser);

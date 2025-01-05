@@ -42,6 +42,7 @@ public class GetCustomerHandler : IQueryHandler<GetCustomer, CustomerDto>
             Type = user.Type,
             TermsAndServicesAccepted = user.TermsAndServicesAccepted,
             Verified = user.Verified,
+            VerificationCode = user.VerificationCode,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };

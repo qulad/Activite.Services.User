@@ -15,19 +15,15 @@ public class UpdateGoogleCustomer : ICommand
 
     public bool TermsAndServicesAccepted { get; set; }
 
-    public bool Verified { get; set; }
-
     public UpdateGoogleCustomer(
         Guid id,
         string firstName,
         string lastName,
-        bool termsAndServicesAccepted,
-        bool verified)
+        bool termsAndServicesAccepted)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
         TermsAndServicesAccepted = termsAndServicesAccepted;
-        Verified = verified;
     }
 }

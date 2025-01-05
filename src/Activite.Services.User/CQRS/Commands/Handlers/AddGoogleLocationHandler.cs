@@ -2,7 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Activite.Services.User.Constants;
+using Activite.Services.User.DTOs.Integration;
 using Activite.Services.User.Mongo.Documents;
+using Activite.Services.User.Services;
 using Convey.CQRS.Commands;
 using Convey.Persistence.MongoDB;
 
@@ -10,13 +12,16 @@ namespace Activite.Services.User.CQRS.Commands.Handlers;
 
 public class AddGoogleLocationHandler : ICommandHandler<AddGoogleLocation>
 {
+    private readonly IntegrationService _intergrationService;
     private readonly IMongoRepository<GoogleLocationDocument, Guid> _repository;
     private readonly IMongoRepository<LocationWalletDocument, Guid> _walletRepository;
 
     public AddGoogleLocationHandler(
+        IntegrationService intergrationService,
         IMongoRepository<GoogleLocationDocument, Guid> repository,
         IMongoRepository<LocationWalletDocument, Guid> walletRepository)
     {
+        _intergrationService = intergrationService;
         _repository = repository;
         _walletRepository = walletRepository;
     }
@@ -87,6 +92,17 @@ public class AddGoogleLocationHandler : ICommandHandler<AddGoogleLocation>
         };
 
         await _walletRepository.AddAsync(wallet);
+
+        var random = new Random();
+
+        var verificationCode = random.Next(123456, 987654).ToString();
+
+        await _intergrationService.GetGoogleTokenAsync(new SendEmailVerificationDto
+        {
+            Email = command.Email,
+            Code = verificationCode,
+            Username = command.Name
+        });
 
         var user = new GoogleLocationDocument
         {

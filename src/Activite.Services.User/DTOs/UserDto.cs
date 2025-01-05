@@ -18,6 +18,8 @@ public class UserDto
 
     public bool Verified { get; set; }
 
+    public string VerificationCode { get; set; }
+
     public DateTimeOffset CreatedAt { get; set; }
 
     public DateTimeOffset? UpdatedAt { get; set; }

@@ -43,6 +43,7 @@ public class GetMultipleAppleCustomersHandler : IQueryHandler<GetMultipleAppleCu
             Type = user.Type,
             TermsAndServicesAccepted = user.TermsAndServicesAccepted,
             Verified = user.Verified,
+            VerificationCode = user.VerificationCode,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         });

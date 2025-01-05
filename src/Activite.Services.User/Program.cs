@@ -1,5 +1,6 @@
 ﻿using Activite.Services.User.CQRS;
 using Activite.Services.User.Mongo;
+using Activite.Services.User.Services;
 using Convey;
 using Convey.Logging;
 using Convey.WebApi.CQRS;
@@ -22,6 +23,7 @@ var host = WebHost.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         services
+            .AddTransient<IntegrationService>()
             .AddConvey()
             .AddCQRS()
             .AddMongoRepositories()

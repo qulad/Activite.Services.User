@@ -36,7 +36,6 @@ public class UpdateGoogleLocationHandler : ICommandHandler<UpdateGoogleLocation>
         existingUser.Name = command.Name;
         existingUser.Description = command.Description;
         existingUser.TermsAndServicesAccepted = command.TermsAndServicesAccepted;
-        existingUser.Verified = command.Verified;
         existingUser.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _repository.UpdateAsync(existingUser);
